@@ -19,8 +19,6 @@ class HeartDrawer(Node):
         # --- Publisher for turtle commands ---
         self.publisher = self.create_publisher(Twist, '/turtle1/cmd_vel', 10)
 
-        # --- Subscriber for turtle's current pose (position and orientation) ---
-        # This is the key addition for closed-loop control.
         self.subscription = self.create_subscription(
             Pose,
             '/turtle1/pose',
@@ -32,8 +30,6 @@ class HeartDrawer(Node):
         self.path = self.generate_heart_path()
         self.path_index = 0 # The index of the current target waypoint in the path
 
-        # --- Main Control Loop ---
-        # A timer calls the move() method periodically to update the turtle's velocity.
         self.timer = self.create_timer(0.05, self.move)
         
         self.get_logger().info("Heart Drawer node started. Waiting for first pose message...")
